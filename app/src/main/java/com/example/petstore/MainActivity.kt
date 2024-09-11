@@ -24,26 +24,22 @@ class MainActivity : AppCompatActivity() {
         }
         val alertDialogBuilder = AlertDialog.Builder(this)
         val petModel: PetStoreModel = ViewModelProvider(this).get(PetStoreModel::class.java)
-        val updateMyPetsText = { p: String ->
-            binding.myPets.text = binding.myPets.text.toString() + p
+        val updateUi = {
+            binding.myPets.text = petModel.uiState.value.myPets
+            binding.userBalance.text = "\uD83D\uDCB0 Your remaining money: ¥" + petModel.uiState.value.usersMoney.toString()
         }
+        updateUi()
         val setNotEnoughMoneyAlert = { p: Pet ->
             val petName = p.pet
             val petPrice = p.price
-            val userMoney = petModel.userMoney
+            val userMoney = petModel.uiState.value.usersMoney
             alertDialogBuilder.setMessage("You do not have enough money to buy $petName. You have ¥$userMoney and $petName costs ¥$petPrice")
             alertDialogBuilder.show()
         }
-        val balanceBinding = binding.userBalance
-        val updateBalanceText =  { newAmount: Int ->
-            balanceBinding.text = "\uD83D\uDCB0Your remaining money: ¥$newAmount"
-        }
-        updateBalanceText(petModel.userMoney)
         val petAdapter = PetAdapter(
             petModel,
-            updateBalanceText,
+            updateUi,
             setNotEnoughMoneyAlert,
-            updateMyPetsText
         )
         binding.petShopPets.adapter = petAdapter
         binding.petShopPets.layoutManager = LinearLayoutManager(this)

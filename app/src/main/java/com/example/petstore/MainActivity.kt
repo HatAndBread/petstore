@@ -41,6 +41,10 @@ class MainActivity : AppCompatActivity() {
             updateUi,
             setNotEnoughMoneyAlert,
         )
+        binding.getMoneyBtn.setOnClickListener {
+            petModel.getMoney()
+            updateUi()
+        }
         binding.petShopPets.adapter = petAdapter
         binding.petShopPets.layoutManager = LinearLayoutManager(this)
     }

@@ -10,7 +10,7 @@ data class PetStoreState(
     val usersMoney: Int = 100,
     val myPets: String = "My pets: ",
     val availablePets: MutableList<Pet> = mutableListOf<Pet>(
-        Pet( "\uD83D\uDC36",30),
+        Pet("\uD83D\uDC36", 30),
         Pet("\uD83D\uDC2F", 30),
         Pet("\uD83D\uDC37", 80),
         Pet("\uD83D\uDC1F", 10),
@@ -46,5 +46,13 @@ class PetStoreModel : ViewModel() {
 
         }
         return wasBought
+    }
+
+    fun getMoney() {
+        _state.update { currentState ->
+            currentState.copy(
+                usersMoney = _state.value.usersMoney + 1
+            )
+        }
     }
 }
